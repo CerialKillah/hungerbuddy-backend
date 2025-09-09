@@ -104,7 +104,7 @@ router.post("/edit_category", function (req, res, next) {
 router.post("/delete_category", function (req, res, next) {
   try {
     pool.query(
-      "delete from foodcategory set where categoryid=?",
+      "delete from foodcategory where categoryid=?",
       [
         req.body.categoryid,
       ],

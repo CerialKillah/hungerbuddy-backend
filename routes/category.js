@@ -131,4 +131,42 @@ router.post("/delete_category", function (req, res, next) {
   }
 });
 
+router.post(
+  "/edit_picture",
+  upload.single("categoryicon"),
+  function (req, res, next) {
+    try {
+      pool.query(
+        "update foodcategory set categoryicon=?,createddate=?,createdtime=?,userid=? where categoryid=?",
+        [
+          req.file.filename,
+          req.body.createddate,
+          req.body.createdtime,
+          req.body.userid,
+          req.body.categoryid,
+        ],
+        function (error, result) {
+          if (error) {
+            console.log(error);
+            res.status(500).json({
+              status: false,
+              message: "Database Error Please Contact Bankend Team....",
+            });
+          } else {
+            res.status(200).json({
+              status: true,
+              message: "Picture Updated Successfully....",
+            });
+          }
+        }
+      );
+    } catch (e) {
+      res.status(500).json({
+        status: false,
+        message: "Critical Error Please Contact Bankend Team....",
+      });
+    }
+  }
+);
+
 module.exports = router;
